@@ -1,6 +1,8 @@
 import time
 import random
 import os
+from tutorial import tutorial
+from game import run
  
 def game_start():
     os.system('cls')
@@ -32,11 +34,13 @@ def game_start():
             run()
         elif command =='2':
             tutorial()
+            os.system("cls")
         elif command == '3':
             print("이용해주셔서 감사합니다.")
             time.sleep(1.5)
             break
         else:
+            os.system("cls")
             print("잘못 누르셨습니다.")
             print()
 
