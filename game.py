@@ -1,5 +1,7 @@
 import time
 import os
+import random
+from explore import *
 
 def start():
     print("""
@@ -47,10 +49,14 @@ def choice(scene, status=0):
                 os.system("cls")
         elif scene == "explore":
             cmd = input("어디로 갈까? 1.갱도1 2.갱도2  \n>>")
-            if cmd == "2" and status == 0:
+            if cmd == "2" and status <= 15:
                 print("2번 갱도문이 잠겨있다. 아직은 갈 수 없을 것 같다.")
                 time.sleep(2)
                 continue
+            elif cmd == "2" and status > 15:
+                print("열쇠로 갱도문을 열었다.")
+                time.sleep(1)
+                return cmd
             elif cmd == '1' or cmd == '2' or cmd == '3':
                 return cmd
             else:
@@ -59,7 +65,15 @@ def choice(scene, status=0):
                 os.system("cls")
 
 def explore(status = 0):
-    choice("explore")
+    command = choice("explore")
+    if command == '1':
+        percent = random.randrange(1,11)
+        if percent>7:
+            monster()
+        elif percent > 6:
+            grow()
+        else:
+            success()
 
 
 def run():
@@ -87,10 +101,13 @@ def run():
                 os.system("cls")
                 tired -=3
             else:
-                tired +=1
+                tired += 1
+                turn += 1
                 os.system("cls")
                 explore(status)
-                os.system("cls")
+                status += 1
+                if status == 16:
+                    print("열쇠를 찾았다. 2번 갱도문 열쇠같은데,,")
         elif command == '3':
             os.system('cls')
             print(f"동굴에 들어온 지 {turn}일, 힘듦 수치: {tired}")
