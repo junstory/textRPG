@@ -7,7 +7,7 @@ attack = 4
 var = 0
 
 def monster():
-    global hp, attack
+    global hp, attack, var
     hp = 10 + var
     attack = 4 + var * 0.6
     monster_hp = random.randrange(6,12+var*0.5)
@@ -19,6 +19,13 @@ def monster():
             if random.randrange(0,3) == 1:
                 print("무사히 도망쳤다.")
                 return
+            else:
+                print(f"{monster_attack}데미지를 입었다,,")
+                if hp < 0:
+                    print("게임오버,, 몬스터에게 당하셨습니다..")
+                    time.sleep(2)
+                    exit(1)
+                time.sleep(1)
         elif command == '2':
             monster_hp -= attack
             print(f"{attack}데미지를 주었다,,")
@@ -45,7 +52,7 @@ def monster():
 
 def grow():
     global var
-    print(f"열심히 탐험을 했더니 한층 강해진 것 같다. 체력{var}+, 공격력{var*0.7}+")
+    print(f"열심히 탐험을 했더니 한층 강해진 것 같다. 증가략 : 체력{var}+, 공격력{var*0.7}+")
     var += random.randrange(1,3)
     
 
