@@ -49,11 +49,11 @@ def choice(scene, status=0):
                 os.system("cls")
         elif scene == "explore":
             cmd = input("어디로 갈까? 1.갱도1 2.갱도2  \n>>")
-            if cmd == "2" and status <= 15:
+            if cmd == "2" and status < 15:
                 print("2번 갱도문이 잠겨있다. 아직은 갈 수 없을 것 같다.")
                 time.sleep(2)
                 continue
-            elif cmd == "2" and status > 15:
+            elif cmd == "2" and status >= 15:
                 print("열쇠로 갱도문을 열었다.")
                 time.sleep(1)
                 return cmd
@@ -64,22 +64,33 @@ def choice(scene, status=0):
                 time.sleep(1.5)
                 os.system("cls")
 
-def explore(status = 0):
-    command = choice("explore")
+def explore(status = 0,score = 0):
+    command = choice("explore",status)
     if command == '1':
         percent = random.randrange(1,11)
         if percent>7:
-            monster()
+            monster(1)
         elif percent > 6:
             grow()
         else:
             success()
+    elif command == "2":
+        percent = random.randrange(1,11)
+        if percent>6:
+            monster(2)
+        elif percent > 2:
+            grow()
+        else:
+            success()
+        score += 1
+
 
 
 def run():
     status = 0 #갱도나 다른 장소에 들어갈 수 있는 지 없는 지 판단을 위한 변수
     turn = 0 #지나간 일 수
     tired = 0 #힘듦 수치
+    score = 0 #갱도2를 탐험한 횟수
     while True:
         command = choice("start")
         print(command)
@@ -104,13 +115,40 @@ def run():
                 tired += 1
                 turn += 1
                 os.system("cls")
-                explore(status)
+                explore(status, score)
                 status += 1
-                if status == 16:
+                if status == 15:
                     print("열쇠를 찾았다. 2번 갱도문 열쇠같은데,,")
         elif command == '3':
             os.system('cls')
             print(f"동굴에 들어온 지 {turn}일, 힘듦 수치: {tired}")
+        if turn > 30:
+            total = status*2 + score*4
+            os.system('cls')
+            time.sleep(2)
+            print("...")
+            time.sleep(1)
+            print("...")
+            time.sleep(2)
+            print(f"동굴에 들어온 지 {turn}일이 되는 날이다.. 드디어 입구에서 빛이 들어온다,,")
+            time.sleep(4)
+            print(f"생존에 성공하셨습니다!\n")
+            time.sleep(1)
+            print(f"탐험횟수 : {status}")
+            time.sleep(1)
+            print(f"2번갱도 탐험 횟수 : {score}")
+            time.sleep(1)
+            print(f"종합 플레이 점수 : ", total)
+            time.sleep(1)
+            if status <3:
+                print("\n한 줄 평 : 너무 안전하게 하신건 아닌가요?? :( ")
+                time.sleep(3)
+                
+            print("게임이 종료됩니다. 플레이 해주셔서 감사합니다.")
+            time.sleep(3)
+            break
+            
+            
 
 
 if __name__ == "__main__":
